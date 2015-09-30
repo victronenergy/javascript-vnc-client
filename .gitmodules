@@ -1,0 +1,4 @@
+[submodule "ext/noVNC"]
+	path = ext/noVNC
+	url = https://github.com/kanaka/noVNC.git
+	branch = master
