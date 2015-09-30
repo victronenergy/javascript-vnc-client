@@ -38,7 +38,7 @@ DESTDIR ?= /var/www/vnc-javascript-client
 install:
 	@$(CHK_DIR_EXISTS) $(DESTDIR) || $(MKDIR) $(DESTDIR)
 	@$(CHK_DIR_EXISTS) $(DESTDIR)/include || $(MKDIR) $(DESTDIR)/include
-	$(COPY_DIR) index.php $(DESTDIR)
+	$(COPY_DIR) index.html $(DESTDIR)
 	$(COPY_DIR) ext/noVNC/include/* $(DESTDIR)/include
 
 	# Configure permissions

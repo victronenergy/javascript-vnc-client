@@ -124,7 +124,7 @@
             WebUtil.init_logging(WebUtil.getQueryVar('logging', 'warn'));
             document.title = unescape(WebUtil.getQueryVar('title', 'noVNC'));
             // By default, use the host and port of server that served this file
-			host = '<?= $_SERVER['SERVER_ADDR'] ?>';		// WebUtil.getQueryVar('host', window.location.hostname);
+			host = window.location.hostname;		// WebUtil.getQueryVar('host', window.location.hostname);
 			port = '81';				// WebUtil.getQueryVar('port', window.location.port);
 
             // if port == 80 (or 443) then it won't be present and should be
