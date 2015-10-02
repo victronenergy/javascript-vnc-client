@@ -26,10 +26,10 @@ MKDIR         = mkdir -p
 # builddir = $(patsubst %/,%,$(dir $(mkfile_path)))-build
 
 # set DESTDIR to default value when not already set
-DESTDIR ?= /var/www/vnc-javascript-client
+DESTDIR ?= /var/www/javascript-vnc-client
 
 ####### Install
-# all:
+all:
 #	./buildForCCGX.sh $(builddir)
 
 # clean:
