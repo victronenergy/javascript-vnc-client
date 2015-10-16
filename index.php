@@ -163,6 +163,9 @@
 								case 'ProtocolVersion':
 									showStatus('Failed to connect to the CCGX.', 'alarm');
 									break;
+								default:
+									showStatus('Failed to connect to the CCGX.', 'alarm');
+									break;
 							}
 							break;
 					}
