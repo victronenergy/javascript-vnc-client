@@ -39,8 +39,11 @@ install:
 	@$(CHK_DIR_EXISTS) $(DESTDIR) || $(MKDIR) $(DESTDIR)
 	@$(CHK_DIR_EXISTS) $(DESTDIR)/include || $(MKDIR) $(DESTDIR)/include
 	@$(CHK_DIR_EXISTS) $(DESTDIR)/styling || $(MKDIR) $(DESTDIR)/styling
+	@$(CHK_DIR_EXISTS) $(DESTDIR)/scripts || $(MKDIR) $(DESTDIR)/scripts
+	
 	$(COPY_DIR) index.html $(DESTDIR)
 	$(COPY_DIR) -R styling/* $(DESTDIR)/styling
+	$(COPY_DIR) -R scripts/* $(DESTDIR)/scripts
 	$(COPY_DIR) ext/noVNC/include/* $(DESTDIR)/include
 
 	# Configure permissions
