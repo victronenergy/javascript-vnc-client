@@ -44,15 +44,6 @@
 						<div class="remote-console-login-field-title">Password <span class="remote-console-login-field-title-asterisk">*</span></div>
 						<div class="remote-console-login-fields">
 							<input type="password" id="remote-console-password"><button id="remote-console-login" class="clickable btn green"><img src="/styling/img/svg-icons/enter.svg" class="remote-console-control-icon svg" /></button>
-							<div class="custom-check-and-radio custom-check">
-								<input type="checkbox" name="remote-console-password-remember" id="remote-console-password-remember" />
-								<label for="remote-console-password-remember" title="Save password">
-									<span class="caption">Save password</span>
-									<span class="alternative-display">
-										<span class="sprite-icons"></span>
-									</span>
-								</label>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -60,7 +51,7 @@
 			<div class="remote-console-controls-container">
 				<div class="remote-console-controls-text">
 					<h3 class="remote-console-controls-title">Where do I find this password?</h3>
-					<h4 class="remote-console-controls-explanation">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h4>
+					<h4 class="remote-console-controls-explanation">This password can be found on the Color Control.</h4>
 				</div>
 			</div>
 		</div>
