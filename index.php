@@ -115,6 +115,8 @@
 
         var rfb, remoteConsole, firstAttempt, identifier;
         window.onscriptsload = function() {
+			remoteConsole = $("#modal-popup-container-remote-console");
+			
 			window.addEventListener('beforeunload', function() {
 				disconnect();
 			});
@@ -123,8 +125,12 @@
 			window.addEventListener('resize', function() {
 				resize();
 			});
+			
+			//Attach click listeners for the buttons
+			remoteConsole.find('[data-button]').click(function() {
+				sendButton($(this).data('button'));
+			});
 		
-			remoteConsole = $("#modal-popup-container-remote-console");
 			firstAttempt = true;
         	// Connection settings
             var host = WebUtil.getQueryVar('host', window.location.hostname);
@@ -134,7 +140,7 @@
 			<?php
 			$identifier = @file_get_contents('/sys/class/net/eth0/address');
 			?>
-			var identifier = '<?php $identifier !== false ? $identifier : ''?>';
+			var identifier = '<?php echo $identifier !== false ? trim(str_replace(':', '', strtolower($identifier))) : ''?>';
 			
             // Set up logging to console
             WebUtil.init_logging('warn');
@@ -144,7 +150,7 @@
             // Set up connection
             rfb = new RFB({
 	            'target': $D('remote-console-canvas'),
-	            'encrypt': WebUtil.getQueryVar('encrypt', true),
+	            'encrypt': WebUtil.getQueryVar('encrypt', false),
 	            'repeaterID': '',
 	            'true_color': true,
 	            'local_cursor': false,
@@ -269,6 +275,28 @@
 			else {
 				$('.remote-console-rotate-message-container').hide();
 			} 
+		}
+		
+		function sendButton(button) {
+			// Check if we're connected
+			if(rfb) {
+				// Mapping buttons to key codes
+				// See https://www.cl.cam.ac.uk/~mgk25/ucs/keysymdef.h
+				var keymap = {
+					'primary':    	65307, // Esc
+					'left-button':	65307, // Esc
+					'secondary':  	65293, // Enter
+					'right-button': 65293, // Enter
+					'up':         	65362, // Arrow up
+					'left':       	65361, // Arrow left
+					'center':     	32,    // Space
+					'right':      	65363, // Arrow right
+					'down':       	65364  // Arrow down
+				};
+
+				// Send key
+				rfb.sendKey(keymap[button]);
+			}
 		}
 		
 		$("img.svg").each(function() {
