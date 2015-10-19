@@ -104,8 +104,20 @@
         // Load supporting scripts
         Util.load_scripts(["webutil.js", "base64.js", "websock.js", "des.js", "keysymdef.js", "keyboard.js", "input.js", "display.js", "jsunzip.js", "rfb.js", "keysym.js"]);
 
-        var rfb, remoteConsole, firstAttempt, identifier;
+		var attempt = 0;
+        var rfb, remoteConsole, identifier, disconnected;
         window.onscriptsload = function() {
+			// Connection settings
+			
+            var host = WebUtil.getQueryVar('host', window.location.hostname);
+            var port = WebUtil.getQueryVar('port', 81);
+            var password = WebUtil.getQueryVar('password', '');
+            var path = WebUtil.getQueryVar('path', 'websockify');
+			<?php
+			$identifier = @file_get_contents('/sys/class/net/eth0/address');
+			?>
+			var identifier = '<?php echo $identifier !== false ? trim(str_replace(':', '', strtolower($identifier))) : ''?>';
+			
 			remoteConsole = $("#modal-popup-container-remote-console");
 			
 			window.addEventListener('beforeunload', function() {
@@ -117,27 +129,31 @@
 				resize();
 			});
 			
+			// Password form
+			var sendPassword = function() {
+				if(disconnected) {
+					rfb.connect(host, port, getHashFromPasswordField(identifier), path);
+				} else {
+					rfb.sendPassword(getHashFromPasswordField(identifier));
+				}
+			};
+			
+			remoteConsole.find('#remote-console-login').click(sendPassword);
+			remoteConsole.find('#remote-console-password').bind('keypress', function(e) {
+				if((e.keyCode ? e.keyCode : e.which) == 13) sendPassword();
+			});
+			
 			//Attach click listeners for the buttons
 			remoteConsole.find('[data-button]').click(function() {
 				sendButton($(this).data('button'));
 			});
-		
-			firstAttempt = true;
-        	// Connection settings
-            var host = WebUtil.getQueryVar('host', window.location.hostname);
-            var port = WebUtil.getQueryVar('port', 81);
-            var password = WebUtil.getQueryVar('password', '');
-            var path = WebUtil.getQueryVar('path', 'websockify');
-			<?php
-			$identifier = @file_get_contents('/sys/class/net/eth0/address');
-			?>
-			var identifier = '<?php echo $identifier !== false ? trim(str_replace(':', '', strtolower($identifier))) : ''?>';
 			
             // Set up logging to console
             WebUtil.init_logging('warn');
 			
 			showStatus('Connecting.', 'notification');
 
+			disconnected = false;
             // Set up connection
             rfb = new RFB({
 	            'target': $D('remote-console-canvas'),
@@ -146,6 +162,7 @@
 	            'true_color': true,
 	            'local_cursor': false,
 	            'shared': true,
+				'disconnectTimeout': 20,
 	            'view_only': false,
 				onUpdateState: function(rfb, state, oldstate, message) {
 					switch(state) {
@@ -160,29 +177,37 @@
 								case 'connect':
 									showStatus('Failed to set up a connection to the CCGX. Check your connection and try again.', 'alarm');
 									break;
-								case 'ProtocolVersion':
-									showStatus('Failed to connect to the CCGX.', 'alarm');
+								case 'SecurityResult':
+									(rfb.get_onPasswordRequired())(rfb);
 									break;
 								default:
 									showStatus('Failed to connect to the CCGX.', 'alarm');
 									break;
 							}
 							break;
+						case 'disconnected':
+							disconnected = true;
+							switch(oldstate) {
+								case 'failed':
+									// Already handled.
+									break;
+								case 'normal':
+									// Normal disconnect
+									showStatus('Disconnected.', 'notification');
+									break;
+							}
+
+							break;
 					}
 				},
 				onPasswordRequired: function(rfb) {
 					showPasswordScreen();
-					if (!firstAttempt) {
+					if (attempt > 1) {
 						// Password was entered incorrectly
 						alert('Incorrect password');
 					}
-
-					remoteConsole.find('#remote-console-login').off('click.login').on('click.login', function() {
-						// Do a new connect, rfb.sendPassword does not seem to work
-						rfb.connect(host, port, getHashFromPasswordField(identifier), path);
-					});
-
-					firstAttempt = false;
+					
+					attempt++;
 				}
             });
             
@@ -191,6 +216,7 @@
 			
             // Connect
             rfb.connect(host, port, password, path);
+			attempt = 0;
         };
 		
 		function getHashFromPasswordField(identifier) {
