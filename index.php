@@ -105,7 +105,10 @@
         Util.load_scripts(["webutil.js", "base64.js", "websock.js", "des.js", "keysymdef.js", "keyboard.js", "input.js", "display.js", "jsunzip.js", "rfb.js", "keysym.js"]);
 
 		var attempt = 0;
-        var rfb, remoteConsole, identifier, disconnected;
+        var rfb = null;
+		var disconnected = false;
+		var remoteConsole, identifier;
+		
         window.onscriptsload = function() {
 			// Connection settings
 			
@@ -132,6 +135,7 @@
 			// Password form
 			var sendPassword = function() {
 				if(disconnected) {
+					initRfb();
 					rfb.connect(host, port, getHashFromPasswordField(identifier), path);
 				} else {
 					rfb.sendPassword(getHashFromPasswordField(identifier));
@@ -155,14 +159,25 @@
 
 			disconnected = false;
             // Set up connection
-            rfb = new RFB({
+            initRfb();
+            
+			// Initial resize
+			resize();
+			
+            // Connect
+            rfb.connect(host, port, password, path);
+			attempt = 0;
+        };
+		
+		function initRfb() {
+			rfb = new RFB({
 	            'target': $D('remote-console-canvas'),
 	            'encrypt': WebUtil.getQueryVar('encrypt', false),
 	            'repeaterID': '',
 	            'true_color': true,
 	            'local_cursor': false,
 	            'shared': true,
-				'disconnectTimeout': 20,
+				'disconnectTimeout': 3,
 	            'view_only': false,
 				onUpdateState: function(rfb, state, oldstate, message) {
 					switch(state) {
@@ -210,14 +225,7 @@
 					attempt++;
 				}
             });
-            
-			// Initial resize
-			resize();
-			
-            // Connect
-            rfb.connect(host, port, password, path);
-			attempt = 0;
-        };
+		}
 		
 		function getHashFromPasswordField(identifier) {
 			var password = remoteConsole.find('#remote-console-password');
