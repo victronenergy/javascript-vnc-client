@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8">
     <title>CCGX Remote Control</title>
-    <!--    
+    <!--
         Modified version of noVNC example, source is here.
         https://github.com/kanaka/noVNC/blob/master/vnc_auto.html
-    
+
         Copyright and license of original file:
         noVNC example: simple example using default UI
         Copyright (C) 2012 Joel Martin
@@ -50,8 +50,8 @@
 			</div>
 			<div class="remote-console-controls-container">
 				<div class="remote-console-controls-text">
-					<h3 class="remote-console-controls-title">Where do I find this password?</h3>
-					<h4 class="remote-console-controls-explanation">This password can be found on the Color Control.</h4>
+					<h3 class="remote-console-controls-title">Forgot the password?</h3>
+					<h4 class="remote-console-controls-explanation">Enter a new one on the Color Control.</h4>
 				</div>
 			</div>
 		</div>
