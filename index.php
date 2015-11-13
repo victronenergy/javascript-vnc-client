@@ -190,7 +190,7 @@
 									showStatus('Disconnected.', 'alarm');
 									break;
 								case 'connect':
-									showStatus('Failed to set up a connection to the CCGX. Check your connection and try again.', 'alarm');
+									showStatus('Failed to connect. Make sure to enable Remote<br />Console for LAN, and reboot the Color Control.', 'alarm');
 									break;
 								case 'SecurityResult':
 									(rfb.get_onPasswordRequired())(rfb);
