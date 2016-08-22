@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>CCGX Remote Control</title>
+    <title>Remote Console on LAN</title>
     <!--
         Modified version of noVNC example, source is here.
         https://github.com/kanaka/noVNC/blob/master/vnc_auto.html
