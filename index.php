@@ -51,7 +51,7 @@
 			<div class="remote-console-controls-container">
 				<div class="remote-console-controls-text">
 					<h3 class="remote-console-controls-title">Forgot the password?</h3>
-					<h4 class="remote-console-controls-explanation">Enter a new one on the Color Control.</h4>
+					<h4 class="remote-console-controls-explanation">Enter a new one on the device.</h4>
 				</div>
 			</div>
 		</div>
@@ -190,13 +190,13 @@
 									showStatus('Disconnected.', 'alarm');
 									break;
 								case 'connect':
-									showStatus('Failed to connect. Make sure to enable Remote<br />Console for LAN, and reboot the Color Control.', 'alarm');
+									showStatus('Failed to connect. Make sure to enable Remote<br />Console for LAN, and reboot the device.', 'alarm');
 									break;
 								case 'SecurityResult':
 									(rfb.get_onPasswordRequired())(rfb);
 									break;
 								default:
-									showStatus('Failed to connect to the CCGX.', 'alarm');
+									showStatus('Failed to connect to the device.', 'alarm');
 									break;
 							}
 							break;
@@ -238,7 +238,7 @@
 			if (hash.length > 8) {
 				return hash.substr(hash.length - 8);
 			} else {
-				alert('Something went wrong while connecting to your CCGX');
+				alert('Something went wrong while connecting to your device');
 			}
 		}
 		
