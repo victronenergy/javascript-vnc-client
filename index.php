@@ -146,12 +146,26 @@
 			remoteConsole.find('#remote-console-password').bind('keypress', function(e) {
 				if((e.keyCode ? e.keyCode : e.which) == 13) sendPassword();
 			});
-			
+
 			//Attach click listeners for the buttons
-			remoteConsole.find('[data-button]').click(function() {
-				sendButton($(this).data('button'));
+			var timeoutId = 0;
+			var intervalId = 0;
+
+			remoteConsole.find('[data-button]').on('touchstart mousedown', function(e) {
+				e.preventDefault();
+				clearTimeout(timeoutId)
+				clearInterval(intervalId);
+				var key = $(this).data('button');
+				sendButton(key)
+				timeoutId = setTimeout( function() {
+					clearTimeout(timeoutId)
+					intervalId = setInterval(function() { sendButton(key) } , 50);
+				}, 250)
+			}).on('mouseup mouseleave touchend touchcancel', function() {
+				clearTimeout(timeoutId)
+				clearInterval(intervalId);
 			});
-			
+
             // Set up logging to console
             WebUtil.init_logging('warn');
 			

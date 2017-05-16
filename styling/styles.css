@@ -9943,6 +9943,10 @@ body.map-none.embedded #vrm-tabs li.active {
   right: 0;
   top: 0;
   width: 262px;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-user-select: none
 }
 .remote-console-controls-text {
   padding-left: 20px;
