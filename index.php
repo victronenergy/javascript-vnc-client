@@ -59,7 +59,7 @@
 			<h2 class="remote-console-title"></h2>
 			<div class="remote-console-display-container">
 				<div class="remote-console-display">
-					<div class="remote-console-display-inner">
+					<div class="remote-console-display-inner">				
 						<canvas id="remote-console-canvas">
 							Your browser does not support canvas, which is required for using the remote console.
 						</canvas>
@@ -68,6 +68,7 @@
 			</div>
 			<div class="remote-console-controls-container">
 				<div class="remote-console-controls-text">
+					<div class="clickable btn light remote-console-control-button config pull-right" id="config-button"><img src="/styling/img/svg-icons/cog.svg" class="remote-console-control-icon svg" /></div>
 					<h2 class="remote-console-controls-title"></h2>
 					<h2 class="remote-console-controls-subtitle">hotkeys</h2>
 				</div>
@@ -86,6 +87,17 @@
 					</div>
 					<div class="remote-console-controls-row">
 						<div class="clickable btn light remote-console-control-button center extra-wide" data-button="center"><img src="/styling/img/svg-icons/spacebar.svg" class="remote-console-control-icon svg" /></div>
+					</div>
+				</div>
+				<div class="remote-console-config">
+					<div class="remote-console-controls-row">
+						<canvas id="logo-canvas" width="208" height="118"></canvas>
+					</div>					
+					<div class="remote-console-controls-row">
+						<label class="clickable btn light btn-file">
+							Choose to replace...
+							<input type="file" id="logo-input" />
+						</label>
 					</div>
 				</div>
 			</div>
@@ -146,7 +158,7 @@
 			remoteConsole.find('#remote-console-password').bind('keypress', function(e) {
 				if((e.keyCode ? e.keyCode : e.which) == 13) sendPassword();
 			});
-
+			
 			//Attach click listeners for the buttons
 			var timeoutId = 0;
 			var intervalId = 0;
@@ -181,7 +193,114 @@
             // Connect
             rfb.connect(host, port, password, path);
 			attempt = 0;
+			
+			$('#config-button').click (toggleConfig);
+			$('#logo-input').change (updateLogo);
+			
+			var logoCanvas = $('#logo-canvas')[0];
+			var logoContext = logoCanvas.getContext('2d');
+
+			var logoImage = new Image();
+
+			logoImage.onload = function() {
+				logoContext.drawImage(logoImage, 0, 0, 208, 118);
+			};
+			
+			logoImage.onerror = function() {
+				logoImage.src = '/settings/logo/default-logo.png';
+			};
+				
+			logoImage.src = '/settings/logo/current-logo.png?nc=' + (new Date().getTime());
         };
+		
+		
+		function toggleConfig() {
+
+			$('.remote-console-config').fadeToggle();
+			$('.remote-console-controls').slideToggle();
+			$('.remote-console-controls-subtitle').text(function (index, current) {return (current == 'hotkeys') ? 'mobile logo' : 'hotkeys';});
+		}
+		
+		function waitDeviceAlive () {
+			
+			$.ajax ({
+				url: '/settings/logo/alive.php',
+				timeout: 60000,
+				data: {alive : new Date().getTime()},
+				success: function (ready) {
+					if (ready.ok) {
+						window.location.reload();
+					}
+					else {
+						waitDeviceAlive();
+					}
+				},
+				error: function () {
+					waitDeviceAlive();
+				},
+				dataType: 'json'
+			});
+
+		}
+		
+		function updateLogo(e) {
+	
+			var file = e.target.files[0];
+			
+			if (file.type.match (/^image\//)) {
+
+				var reader = new window.FileReader();
+
+				reader.readAsDataURL(file);
+
+				reader.onload = function () {
+					var logoCanvas = $('#logo-canvas')[0];
+					var logoContext = logoCanvas.getContext('2d');
+
+					var logoImage = new Image();
+
+					logoImage.onload = function() {
+					
+						logoContext.drawImage(logoImage, 0, 0, 208, 118);
+						
+						var b64blob = logoCanvas.toDataURL().replace(/^data\:image\/png\;base64\,/, '');
+					
+						$.ajax ({
+							url:			'/settings/logo/upload.php',
+							type:			'POST',
+							data:			{img: b64blob},
+							dataType:		'json',
+							success:		function (response) {
+								
+								if (response.ok) {
+									
+									var timer = 60;
+									var interval = window.setInterval (function () {
+										
+										if (timer > 0) {
+											timer--;
+											var timeLeft = '0:' + ((timer < 10) ? '0' : '') + timer;
+											showStatus('Logo replaced. Rebooting...<br><br><strong>' + timeLeft + '</strong>', 'notification');
+										}
+									}, 1000);
+									
+									// Wait 10 secs to ensure system is down until trying to reconnect
+									window.setTimeout (waitDeviceAlive, 10000);
+								}
+								else {
+									showStatus('Logo replace failed.<br><br><strong>' + response.fault + '</strong>', 'alarm');
+								}
+							},
+							error:			function (response) {
+								showStatus('Logo replace failed<br><br><strong>' + response.statusText + '</strong>', 'alarm');
+							}
+						});
+					};
+					
+					logoImage.src = reader.result;
+				}
+			}
+		}
 		
 		function initRfb() {
 			rfb = new RFB({
