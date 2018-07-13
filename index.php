@@ -108,14 +108,15 @@
         var rfb = null;
 		var disconnected = false;
 		var remoteConsole, identifier;
+		var host, port, password, path;
 		
         window.onscriptsload = function() {
 			// Connection settings
 			
-            var host = WebUtil.getQueryVar('host', window.location.hostname);
-            var port = WebUtil.getQueryVar('port', 81);
-            var password = WebUtil.getQueryVar('password', '');
-            var path = WebUtil.getQueryVar('path', 'websockify');
+            host = WebUtil.getQueryVar('host', window.location.hostname);
+            port = WebUtil.getQueryVar('port', 81);
+            password = WebUtil.getQueryVar('password', '');
+            path = WebUtil.getQueryVar('path', 'websockify');
 			<?php
 			$identifier = @file_get_contents('/sys/class/net/eth0/address');
 			?>
@@ -169,7 +170,7 @@
             // Set up logging to console
             WebUtil.init_logging('warn');
 			
-			showStatus('Connecting.', 'notification');
+			showStatus('Connecting...', 'notification', true);
 
 			disconnected = false;
             // Set up connection
@@ -266,7 +267,12 @@
 			hideStatus();
 		}
 
-		function showStatus(status, type) {
+		function reconnect() {
+			showStatus('Connecting...', 'notification', true);
+			rfb.connect(host, port, password, path);
+		}
+
+		function showStatus(status, type, hideReconnectButton) {
 			var statusContainer = remoteConsole.find('.remote-console-status');
 
 			remoteConsole.removeClass("password-needed").removeClass('logged-in');
@@ -274,6 +280,9 @@
 			statusContainer.removeClass('notification');
 			statusContainer.removeClass('alarm');
 			statusContainer.addClass(type);
+			if(!hideReconnectButton) {
+				remoteConsole.find('.remote-console-status-text').append('<br \><br \><input type="button" value="Reconnect" onclick="reconnect()" />')
+			}
 		}
 		
 		function hideStatus() {
