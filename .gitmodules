@@ -1,4 +1,3 @@
 [submodule "ext/noVNC"]
 	path = ext/noVNC
-	url = https://github.com/kanaka/noVNC.git
-	commit = fc00821eba469641c6c94706726c3d78e46460a2
+	url = git@github.com:victronenergy/noVNC.git
