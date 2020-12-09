@@ -118,7 +118,7 @@
             password = WebUtil.getQueryVar('password', '');
             path = WebUtil.getQueryVar('path', 'websockify');
 			<?php
-			$identifier = @file_get_contents('/sys/class/net/eth0/address');
+			$identifier = @file_get_contents('/data/venus/unique-id');
 			?>
 			var identifier = '<?php echo $identifier !== false ? trim(str_replace(':', '', strtolower($identifier))) : ''?>';
 			
