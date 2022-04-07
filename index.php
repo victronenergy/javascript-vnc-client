@@ -1,3 +1,25 @@
+<?php
+
+// The salt is derived from the unique-id of the Venus device, since the unique-id,
+// turned out to be not unique by mistake at times, it was replaced by something with
+// was unique. As a consequence the salt changed and hence it is no longer possible
+// to authenticate. So pass the salt, instead of the unique-id.
+function getSalt() {
+	$fh = fopen("/data/conf/vncpassword.txt", "r");
+	if (!$fh)
+		return "";
+	$salt = fread($fh, 29);
+	fclose($fh);
+
+	// NOTE: be strict about the format, to prevent accidentally leaking secrets if
+	// a different format is used e.g.
+	if (!preg_match('/^\$2a\$08\$[A-Za-z0-9+\\.]{22}$/', $salt))
+		return "";
+
+	return $salt;
+}
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -117,10 +139,7 @@
             port = WebUtil.getQueryVar('port', 81);
             password = WebUtil.getQueryVar('password', '');
             path = WebUtil.getQueryVar('path', 'websockify');
-			<?php
-			$identifier = @file_get_contents('/data/venus/unique-id');
-			?>
-			var identifier = '<?php echo $identifier !== false ? trim(str_replace(':', '', strtolower($identifier))) : ''?>';
+			var salt = '<?= getSalt(); ?>';
 			
 			remoteConsole = $("#modal-popup-container-remote-console");
 			
@@ -137,9 +156,9 @@
 			var sendPassword = function() {
 				if(disconnected) {
 					initRfb();
-					rfb.connect(host, port, getHashFromPasswordField(identifier), path);
+					rfb.connect(host, port, getHashFromPasswordField(salt), path);
 				} else {
-					rfb.sendPassword(getHashFromPasswordField(identifier));
+					rfb.sendPassword(getHashFromPasswordField(salt));
 				}
 			};
 			
@@ -242,14 +261,13 @@
             });
 		}
 		
-		function getHashFromPasswordField(identifier) {
+		function getHashFromPasswordField(salt) {
 			var password = remoteConsole.find('#remote-console-password');
 			if (password.val().length == 0) {
 				return '';
 			}
 
-			var setting = genSaltSyncFromString(8, identifier + identifier)
-			var hash = hashSync(password.val(), setting);
+			var hash = hashSync(password.val(), salt);
 			if (hash.length > 8) {
 				return hash.substr(hash.length - 8);
 			} else {
