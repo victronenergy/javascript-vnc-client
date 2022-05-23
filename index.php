@@ -5,7 +5,7 @@
 // was unique. As a consequence the salt changed and hence it is no longer possible
 // to authenticate. So pass the salt, instead of the unique-id.
 function getSalt() {
-	$fh = fopen("/data/conf/vncpassword.txt", "r");
+	$fh = @fopen("/data/conf/vncpassword.txt", "r");
 	if (!$fh)
 		return "";
 	$salt = fread($fh, 29);
