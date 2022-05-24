@@ -13,7 +13,7 @@ function getSalt() {
 
 	// NOTE: be strict about the format, to prevent accidentally leaking secrets if
 	// a different format is used e.g.
-	if (!preg_match('/^\$2a\$08\$[A-Za-z0-9+\\.]{22}$/', $salt))
+	if (!preg_match('/^\$2a\$08\$[A-Za-z0-9+\\.\/]{22}$/', $salt))
 		return "";
 
 	return $salt;
