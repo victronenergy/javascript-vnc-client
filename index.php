@@ -23,28 +23,28 @@ function getSalt() {
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Remote Console on LAN</title>
-    <!--
-        Modified version of noVNC example, source is here.
-        https://github.com/kanaka/noVNC/blob/master/vnc_auto.html
+	<meta charset="utf-8">
+	<title>Remote Console on LAN</title>
+	<!--
+		Modified version of noVNC example, source is here.
+		https://github.com/kanaka/noVNC/blob/master/vnc_auto.html
 
-        Copyright and license of original file:
-        noVNC example: simple example using default UI
-        Copyright (C) 2012 Joel Martin
-        Copyright (C) 2013 Samuel Mannehed for Cendio AB
-        noVNC is licensed under the MPL 2.0 (see LICENSE.txt)
-        This file is licensed under the 2-Clause BSD license (see LICENSE.txt).
-    -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link href="styling/styles.css" media="screen" rel="stylesheet" type="text/css" />
-    <script src="include/util.js"></script>
+		Copyright and license of original file:
+		noVNC example: simple example using default UI
+		Copyright (C) 2012 Joel Martin
+		Copyright (C) 2013 Samuel Mannehed for Cendio AB
+		noVNC is licensed under the MPL 2.0 (see LICENSE.txt)
+		This file is licensed under the 2-Clause BSD license (see LICENSE.txt).
+	-->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link href="styling/styles.css" media="screen" rel="stylesheet" type="text/css" />
+	<script src="include/util.js"></script>
 	<script src="scripts/jquery-2.1.3.js"></script>
 	<script src="scripts/bCrypt.js"></script>
 </head>
 <body>
-    <div id="modal-popup-container-remote-console" class="modal-popup-container remote-console-popup-container mfp-with-anim">
+	<div id="modal-popup-container-remote-console" class="modal-popup-container remote-console-popup-container mfp-with-anim">
 		<div class="remote-console-status">
 			<div class="remote-console-status-content">
 				<div class="remote-console-login-icon alarm">
@@ -120,27 +120,27 @@ function getSalt() {
 		</div>
 	</div>
 
-    <script type="text/javascript">
-        "use strict";
+	<script type="text/javascript">
+		"use strict";
 
-        // Load supporting scripts
-        Util.load_scripts(["webutil.js", "base64.js", "websock.js", "des.js", "keysymdef.js", "keyboard.js", "input.js", "display.js", "jsunzip.js", "rfb.js", "keysym.js"]);
+		// Load supporting scripts
+		Util.load_scripts(["webutil.js", "base64.js", "websock.js", "des.js", "keysymdef.js", "keyboard.js", "input.js", "display.js", "jsunzip.js", "rfb.js", "keysym.js"]);
 
 		var attempt = 0;
-        var rfb = null;
+		var rfb = null;
 		var disconnected = false;
 		var remoteConsole, identifier;
 		var host, port, password, path;
 		
-        window.onscriptsload = function() {
+		window.onscriptsload = function() {
 			// Connection settings
 			
-            host = WebUtil.getQueryVar('host', window.location.hostname);
-            port = WebUtil.getQueryVar('port', 81);
-            password = WebUtil.getQueryVar('password', '');
-            path = WebUtil.getQueryVar('path', 'websockify');
+			host = WebUtil.getQueryVar('host', window.location.hostname);
+			port = WebUtil.getQueryVar('port', 81);
+			password = WebUtil.getQueryVar('password', '');
+			path = WebUtil.getQueryVar('path', 'websockify');
 			var salt = '<?= getSalt(); ?>';
-			
+
 			remoteConsole = $("#modal-popup-container-remote-console");
 			
 			window.addEventListener('beforeunload', function() {
@@ -186,33 +186,33 @@ function getSalt() {
 				clearInterval(intervalId);
 			});
 
-            // Set up logging to console
-            WebUtil.init_logging('warn');
+			// Set up logging to console
+			WebUtil.init_logging('warn');
 			
 			showStatus('Connecting...', 'notification', true);
 
 			disconnected = false;
-            // Set up connection
-            initRfb();
-            
+			// Set up connection
+			initRfb();
+
 			// Initial resize
 			resize();
-			
-            // Connect
-            rfb.connect(host, port, password, path);
+
+			// Connect
+			rfb.connect(host, port, password, path);
 			attempt = 0;
-        };
-		
+		};
+
 		function initRfb() {
 			rfb = new RFB({
-	            'target': $D('remote-console-canvas'),
-	            'encrypt': WebUtil.getQueryVar('encrypt', false),
-	            'repeaterID': '',
-	            'true_color': true,
-	            'local_cursor': false,
-	            'shared': true,
+				'target': $D('remote-console-canvas'),
+				'encrypt': WebUtil.getQueryVar('encrypt', false),
+				'repeaterID': '',
+				'true_color': true,
+				'local_cursor': false,
+				'shared': true,
 				'disconnectTimeout': 3,
-	            'view_only': false,
+				'view_only': false,
 				onUpdateState: function(rfb, state, oldstate, message) {
 					switch(state) {
 						case 'normal':
@@ -258,9 +258,9 @@ function getSalt() {
 					
 					attempt++;
 				}
-            });
+			});
 		}
-		
+
 		function getHashFromPasswordField(salt) {
 			var password = remoteConsole.find('#remote-console-password');
 			if (password.val().length == 0) {
@@ -274,7 +274,7 @@ function getSalt() {
 				alert('Something went wrong while connecting to your device');
 			}
 		}
-		
+
 		function showPasswordScreen() {
 			remoteConsole.removeClass('logged-in').addClass("password-needed");;
 			hideStatus();
@@ -345,29 +345,29 @@ function getSalt() {
 				$('.remote-console-rotate-message-container').hide();
 			} 
 		}
-		
+
 		function sendButton(button) {
 			// Check if we're connected
 			if(rfb) {
 				// Mapping buttons to key codes
 				// See https://www.cl.cam.ac.uk/~mgk25/ucs/keysymdef.h
 				var keymap = {
-					'primary':    	65307, // Esc
-					'left-button':	65307, // Esc
-					'secondary':  	65293, // Enter
+					'primary':      65307, // Esc
+					'left-button':  65307, // Esc
+					'secondary':    65293, // Enter
 					'right-button': 65293, // Enter
-					'up':         	65362, // Arrow up
-					'left':       	65361, // Arrow left
-					'center':     	32,    // Space
-					'right':      	65363, // Arrow right
-					'down':       	65364  // Arrow down
+					'up':           65362, // Arrow up
+					'left':         65361, // Arrow left
+					'center':       32,    // Space
+					'right':        65363, // Arrow right
+					'down':         65364  // Arrow down
 				};
 
 				// Send key
 				rfb.sendKey(keymap[button]);
 			}
 		}
-		
+
 		$("img.svg").each(function() {
 			var $img = jQuery(this);
 			var imgID = $img.attr('id');
@@ -400,7 +400,6 @@ function getSalt() {
 
 			}, 'xml');
 		});
-    </script>
+	</script>
 </body>
 </html>
-
