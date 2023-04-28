@@ -154,7 +154,7 @@ function getSalt() {
 			
 			// Password form
 			var sendPassword = function() {
-				if(disconnected) {
+				if (disconnected) {
 					initRfb();
 					rfb.connect(host, port, getHashFromPasswordField(salt), path);
 				} else {
@@ -164,7 +164,7 @@ function getSalt() {
 			
 			remoteConsole.find('#remote-console-login').click(sendPassword);
 			remoteConsole.find('#remote-console-password').bind('keypress', function(e) {
-				if((e.keyCode ? e.keyCode : e.which) == 13) sendPassword();
+				if ((e.keyCode ? e.keyCode : e.which) == 13) sendPassword();
 			});
 
 			//Attach click listeners for the buttons
@@ -298,7 +298,7 @@ function getSalt() {
 			statusContainer.removeClass('notification');
 			statusContainer.removeClass('alarm');
 			statusContainer.addClass(type);
-			if(!hideReconnectButton) {
+			if (!hideReconnectButton) {
 				remoteConsole.find('.remote-console-status-text').append('<br \><br \><input type="button" value="Reconnect" onclick="reconnect()" />')
 			}
 		}
@@ -309,7 +309,7 @@ function getSalt() {
 		
 		function disconnect() {
 			// Check if we're connected
-			if(rfb) {
+			if (rfb) {
 				// Disconnect
 				rfb.disconnect();
 				rfb = null;
@@ -333,22 +333,20 @@ function getSalt() {
 
 			if (windowWidth < 686) {
 				$display.width(480 - (686 - windowWidth));
-			}
-			else {
+			} else {
 				$display.width('');
 			}
 
 			if (windowWidth < 768 && isPortrait && $('#modal-popup-container-remote-console').length > 0) {
 				$('.remote-console-rotate-message-container').show();
-			}
-			else {
+			} else {
 				$('.remote-console-rotate-message-container').hide();
 			} 
 		}
 
 		function sendButton(button) {
 			// Check if we're connected
-			if(rfb) {
+			if (rfb) {
 				// Mapping buttons to key codes
 				// See https://www.cl.cam.ac.uk/~mgk25/ucs/keysymdef.h
 				var keymap = {
@@ -379,11 +377,11 @@ function getSalt() {
 				var $svg = jQuery(data).find('svg');
 
 				// Add replaced image's ID to the new SVG
-				if(typeof imgID !== 'undefined') {
+				if (typeof imgID !== 'undefined') {
 					$svg = $svg.attr('id', imgID);
 				}
 				// Add replaced image's classes to the new SVG
-				if(typeof imgClass !== 'undefined') {
+				if (typeof imgClass !== 'undefined') {
 					$svg = $svg.attr('class', imgClass+' replaced-svg');
 				}
 
@@ -391,7 +389,7 @@ function getSalt() {
 				$svg = $svg.removeAttr('xmlns:a');
 
 				// Check if the viewport is set, if the viewport is not set the SVG wont't scale.
-				if(!$svg.attr('viewBox') && $svg.attr('height') && $svg.attr('width')) {
+				if (!$svg.attr('viewBox') && $svg.attr('height') && $svg.attr('width')) {
 					$svg.attr('viewBox', '0 0 ' + $svg.attr('height') + ' ' + $svg.attr('width'))
 				}
 
