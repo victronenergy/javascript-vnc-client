@@ -130,13 +130,14 @@ function getSalt() {
 		var rfb = null;
 		var disconnected = false;
 		var remoteConsole, identifier;
-		var host, port, password, path;
+		var encrypt, host, port, password, path;
 		
 		window.onscriptsload = function() {
 			// Connection settings
 			
+			encrypt = location.protocol === "https:";
 			host = WebUtil.getQueryVar('host', window.location.hostname);
-			port = WebUtil.getQueryVar('port', 81);
+			port = WebUtil.getQueryVar('port', (encrypt ? 443 : 81));
 			password = WebUtil.getQueryVar('password', '');
 			path = WebUtil.getQueryVar('path', 'websockify');
 			var salt = '<?= getSalt(); ?>';
@@ -199,6 +200,7 @@ function getSalt() {
 			resize();
 
 			// Connect
+			rfb._encrypt = encrypt;
 			rfb.connect(host, port, password, path);
 			attempt = 0;
 		};
