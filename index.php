@@ -157,6 +157,7 @@ function getSalt() {
 			var sendPassword = function() {
 				if (disconnected) {
 					initRfb();
+					rfb._encrypt = encrypt;
 					rfb.connect(host, port, getHashFromPasswordField(salt), path);
 				} else {
 					rfb.sendPassword(getHashFromPasswordField(salt));
