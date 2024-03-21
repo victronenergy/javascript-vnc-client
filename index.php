@@ -13,10 +13,32 @@ function getSalt() {
 
 	// NOTE: be strict about the format, to prevent accidentally leaking secrets if
 	// a different format is used e.g.
-	if (!preg_match('/^\$2a\$08\$[A-Za-z0-9+\\.\/]{22}$/', $salt))
-		return "";
+	if (preg_match('/^\$2a\$08\$[A-Za-z0-9+\\.\/]{22}$/', $salt))
+		return $salt;
 
-	return $salt;
+	if (preg_match('/^\$2y(\$08\$[A-Za-z0-9+\\.\/]{22})$/', $salt, $matches))
+		return "\$2a" . $matches[1];
+
+	return "";
+}
+
+# FIXME: needs permission some how, preferably once?
+if (!file_exists("/data/conf/vncpassword.txt")) {
+	if (isset($_POST['new-password'])) {
+			$options['cost'] = 8;
+			$hash = password_hash($_POST['new-password'], PASSWORD_BCRYPT, $options);
+			$fh = fopen("/data/conf/vncpassword.txt", "w");
+			// if ! ..
+			fwrite($fh, $hash);
+			// if ...
+			fclose($fh);
+			// rename
+
+			// prevent POST refresh
+			header("HTTP/1.1 303 Password set");
+			header("Location: /");
+			exit();
+	}
 }
 
 ?>
@@ -45,6 +67,9 @@ function getSalt() {
 </head>
 <body>
 	<div id="modal-popup-container-remote-console" class="modal-popup-container remote-console-popup-container mfp-with-anim">
+
+		<!-- --> <?php if (file_exists("/data/conf/vncpassword.txt")) { ?>
+
 		<div class="remote-console-status">
 			<div class="remote-console-status-content">
 				<div class="remote-console-login-icon alarm">
@@ -112,6 +137,16 @@ function getSalt() {
 				</div>
 			</div>
 		</div>
+
+		<!-- --> <?php } else { ?>
+
+		<form method=post />
+			Please enter a password: <input type=password name=password id=enter-password-js /><BR />
+			And again: <input type=password name=password2 /><BR />
+			<input type="submit" value="Set Password" />
+		</form>
+
+		<!-- --> <?php } ?>
 	</div>
 	<div class="remote-console-rotate-message-container">
 		<div class="rotate-message-contents">
