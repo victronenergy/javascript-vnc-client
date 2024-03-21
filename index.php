@@ -90,7 +90,13 @@ if (!file_exists("/data/conf/vncpassword.txt")) {
 					<div class="remote-console-login-fields-container">
 						<div class="remote-console-login-field-title">Password <span class="remote-console-login-field-title-asterisk">*</span></div>
 						<div class="remote-console-login-fields">
-							<input type="password" id="remote-console-password"><button id="remote-console-login" class="clickable btn green"><img src="/styling/img/svg-icons/enter.svg" class="remote-console-control-icon svg" /></button>
+							<form id="login-form">
+								<input id="username" type="hidden" name="username" autocomplete="username" />
+								<input type="password" id="remote-console-password" autocomplete="current-password">
+								<button id="remote-console-login" class="clickable btn green">
+									<img src="/styling/img/svg-icons/enter.svg" class="remote-console-control-icon svg" />
+								</button>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -141,8 +147,9 @@ if (!file_exists("/data/conf/vncpassword.txt")) {
 		<!-- --> <?php } else { ?>
 
 		<form method=post />
-			Please enter a password: <input type=password name=password id=enter-password-js /><BR />
-			And again: <input type=password name=password2 /><BR />
+			<input id="username" type="text" name="username" autocomplete="username" style="display: none;" />
+			Please enter a password: <input type=password name=new-password id=enter-password-js autocomplete="new-password" required /><BR />
+			And again: <input type=password name=password2 autocomplete="new-password" required /><BR />
 			<input type="submit" value="Set Password" />
 		</form>
 
@@ -199,6 +206,7 @@ if (!file_exists("/data/conf/vncpassword.txt")) {
 				}
 			};
 			
+			$('#login-form').submit(function(event){event.preventDefault();});
 			remoteConsole.find('#remote-console-login').click(sendPassword);
 			remoteConsole.find('#remote-console-password').bind('keypress', function(e) {
 				if ((e.keyCode ? e.keyCode : e.which) == 13) sendPassword();
