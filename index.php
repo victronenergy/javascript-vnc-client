@@ -137,7 +137,7 @@ function getSalt() {
 			
 			encrypt = location.protocol === "https:";
 			host = WebUtil.getQueryVar('host', window.location.hostname);
-			port = WebUtil.getQueryVar('port', (encrypt ? 443 : 81));
+			port = WebUtil.getQueryVar('port', (encrypt ? 443 : 80));
 			password = WebUtil.getQueryVar('password', '');
 			path = WebUtil.getQueryVar('path', 'websockify');
 			var salt = '<?= getSalt(); ?>';
