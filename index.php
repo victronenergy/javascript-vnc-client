@@ -48,10 +48,10 @@ function getSalt() {
 		<div class="remote-console-status">
 			<div class="remote-console-status-content">
 				<div class="remote-console-login-icon alarm">
-					<img src="/styling/img/svg-icons/icon_12_alarm-32px.svg" class="remote-console-control-icon svg" />
+					<img src="styling/img/svg-icons/icon_12_alarm-32px.svg" class="remote-console-control-icon svg" />
 				</div>
 				<div class="remote-console-login-icon notification">
-					<img src="/styling/img/svg-icons/icon_11_notification-32px.svg" class="remote-console-control-icon svg" />
+					<img src="styling/img/svg-icons/icon_11_notification-32px.svg" class="remote-console-control-icon svg" />
 				</div>
 				<h2 class="remote-console-login-title">Remote console</h2>
 				<div class="remote-console-status-text"></div>
@@ -60,12 +60,12 @@ function getSalt() {
 		<div class="remote-console-login">
 			<div class="remote-console-display-container">
 				<div class="remote-console-login-contents">
-					<div class="remote-console-login-icon"><img src="/styling/img/svg-icons/password.svg" class="remote-console-control-icon svg" /></div>
+					<div class="remote-console-login-icon"><img src="styling/img/svg-icons/password.svg" class="remote-console-control-icon svg" /></div>
 					<h2 class="remote-console-login-title">Remote console</h2>
 					<div class="remote-console-login-fields-container">
 						<div class="remote-console-login-field-title">Password <span class="remote-console-login-field-title-asterisk">*</span></div>
 						<div class="remote-console-login-fields">
-							<input type="password" id="remote-console-password"><button id="remote-console-login" class="clickable btn green"><img src="/styling/img/svg-icons/enter.svg" class="remote-console-control-icon svg" /></button>
+							<input type="password" id="remote-console-password"><button id="remote-console-login" class="clickable btn green"><img src="styling/img/svg-icons/enter.svg" class="remote-console-control-icon svg" /></button>
 						</div>
 					</div>
 				</div>
@@ -96,18 +96,18 @@ function getSalt() {
 				<div class="remote-console-controls">
 					<div class="remote-console-controls-row">
 						<div class="clickable btn light remote-console-control-button left-button wide" data-button="left-button"><span class="remote-console-control-icon text">esc</span><span class="remote-console-control-icon">&nbsp;</span></div>
-						<div class="clickable btn light remote-console-control-button right-button wide" data-button="right-button"><img src="/styling/img/svg-icons/enter.svg" class="remote-console-control-icon svg" /></div>
+						<div class="clickable btn light remote-console-control-button right-button wide" data-button="right-button"><img src="styling/img/svg-icons/enter.svg" class="remote-console-control-icon svg" /></div>
 					</div>
 					<div class="remote-console-controls-row">
-						<div class="clickable btn light remote-console-control-button up" data-button="up"><img src="/styling/img/svg-icons/arrow-up.svg" class="remote-console-control-icon svg" /></div>
+						<div class="clickable btn light remote-console-control-button up" data-button="up"><img src="styling/img/svg-icons/arrow-up.svg" class="remote-console-control-icon svg" /></div>
 					</div>
 					<div class="remote-console-controls-row">
-						<div class="clickable btn light remote-console-control-button left" data-button="left"><img src="/styling/img/svg-icons/arrow-left.svg" class="remote-console-control-icon svg" /></div>
-						<div class="clickable btn light remote-console-control-button down" data-button="down"><img src="/styling/img/svg-icons/arrow-down.svg" class="remote-console-control-icon svg" /></div>
-						<div class="clickable btn light remote-console-control-button right" data-button="right"><img src="/styling/img/svg-icons/arrow-right.svg" class="remote-console-control-icon svg" /></div>
+						<div class="clickable btn light remote-console-control-button left" data-button="left"><img src="styling/img/svg-icons/arrow-left.svg" class="remote-console-control-icon svg" /></div>
+						<div class="clickable btn light remote-console-control-button down" data-button="down"><img src="styling/img/svg-icons/arrow-down.svg" class="remote-console-control-icon svg" /></div>
+						<div class="clickable btn light remote-console-control-button right" data-button="right"><img src="styling/img/svg-icons/arrow-right.svg" class="remote-console-control-icon svg" /></div>
 					</div>
 					<div class="remote-console-controls-row">
-						<div class="clickable btn light remote-console-control-button center extra-wide" data-button="center"><img src="/styling/img/svg-icons/spacebar.svg" class="remote-console-control-icon svg" /></div>
+						<div class="clickable btn light remote-console-control-button center extra-wide" data-button="center"><img src="styling/img/svg-icons/spacebar.svg" class="remote-console-control-icon svg" /></div>
 					</div>
 				</div>
 			</div>
@@ -115,7 +115,7 @@ function getSalt() {
 	</div>
 	<div class="remote-console-rotate-message-container">
 		<div class="rotate-message-contents">
-			<div class="rotate-message-icon"><img src="/styling/img/svg-icons/rotate-72px.svg" class="remote-console-control-icon svg" /></div>
+			<div class="rotate-message-icon"><img src="styling/img/svg-icons/rotate-72px.svg" class="remote-console-control-icon svg" /></div>
 			<h2 class="rotate-message-title">Rotate your screen</h2>
 		</div>
 	</div>

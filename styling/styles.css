@@ -3934,22 +3934,22 @@ Fonts and sizes (start)
   font-family: 'MuseoSans-300';
   font-style: normal;
   font-weight: normal;
-  src: url('/styling/webfonts/MuseoSans-300.eot');
-  src: url('/styling/webfonts/MuseoSans-300.eot?#iefix') format('embedded-opentype'), url('/styling/webfonts/MuseoSans-300.woff') format('woff'), local('MuseoSans-300'), url('/styling/webfonts/MuseoSans-300.otf') format('opentype'), url('/styling/webfonts/MuseoSans-300.ttf') format('truetype'), url('/styling/webfonts/MuseoSans-300.svg#MuseoSans-300') format('svg');
+  src: url('webfonts/MuseoSans-300.eot');
+  src: url('webfonts/MuseoSans-300.eot?#iefix') format('embedded-opentype'), url('webfonts/MuseoSans-300.woff') format('woff'), local('MuseoSans-300'), url('webfonts/MuseoSans-300.otf') format('opentype'), url('webfonts/MuseoSans-300.ttf') format('truetype'), url('webfonts/MuseoSans-300.svg#MuseoSans-300') format('svg');
 }
 @font-face {
   font-family: 'MuseoSans-700';
   font-style: normal;
   font-weight: normal;
-  src: url('/styling/webfonts/MuseoSans-700.eot');
-  src: url('/styling/webfonts/MuseoSans-700.eot?#iefix') format('embedded-opentype'), url('/styling/webfonts/MuseoSans-700.woff') format('woff'), local('MuseoSans-700'), url('/styling/webfonts/MuseoSans-700.otf') format('opentype'), url('/styling/webfonts/MuseoSans-700.ttf') format('truetype'), url('/styling/webfonts/MuseoSans-700.svg#MuseoSans-700') format('svg');
+  src: url('webfonts/MuseoSans-700.eot');
+  src: url('webfonts/MuseoSans-700.eot?#iefix') format('embedded-opentype'), url('webfonts/MuseoSans-700.woff') format('woff'), local('MuseoSans-700'), url('webfonts/MuseoSans-700.otf') format('opentype'), url('webfonts/MuseoSans-700.ttf') format('truetype'), url('webfonts/MuseoSans-700.svg#MuseoSans-700') format('svg');
 }
 @font-face {
   font-family: 'screensaver-icons';
   font-style: normal;
   font-weight: normal;
-  src: url('/styling/webfonts/icons/VRM-screensaver-icons.eot');
-  src: url('/styling/webfonts/icons/VRM-screensaver-icons.eot?#iefix') format('embedded-opentype'), url('/styling/webfonts/icons/VRM-screensaver-icons.woff') format('woff'), url('/styling/webfonts/icons/VRM-screensaver-icons.otf') format('opentype'), url('/styling/webfonts/icons/VRM-screensaver-icons.ttf') format('truetype'), url('/styling/webfonts/icons/VRM-screensaver-icons.svg#VRM-screensaver-icon') format('svg');
+  src: url('webfonts/icons/VRM-screensaver-icons.eot');
+  src: url('webfonts/icons/VRM-screensaver-icons.eot?#iefix') format('embedded-opentype'), url('webfonts/icons/VRM-screensaver-icons.woff') format('woff'), url('webfonts/icons/VRM-screensaver-icons.otf') format('opentype'), url('webfonts/icons/VRM-screensaver-icons.ttf') format('truetype'), url('webfonts/icons/VRM-screensaver-icons.svg#VRM-screensaver-icon') format('svg');
 }
 /****************************************************************************************************************************************
 Fonts and sizes (end)
