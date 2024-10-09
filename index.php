@@ -227,7 +227,7 @@ function getSalt() {
 									showStatus('Disconnected.', 'alarm');
 									break;
 								case 'connect':
-									showStatus('Failed to connect. Make sure to enable Remote<br />Console for LAN, and reboot the device.', 'alarm');
+									showStatus('Failed to connect.<br/>Make sure to enable Remote Console', 'alarm');
 									break;
 								case 'SecurityResult':
 									(rfb.get_onPasswordRequired())(rfb);
