@@ -206,6 +206,27 @@ function getSalt() {
 			attempt = 0;
 		};
 
+		// note: returns the url if it is...
+		async function isGuiv2Running() {
+			try {
+				const response = await fetch(location.protocol + "//" + location.hostname, {cache: "no-cache"});
+				if (response.ok) {
+					if (response.redirected && response.url.includes("gui-v2")) {
+						return response.url;
+					}
+				}
+			} catch (error) {
+			}
+
+			return ""
+		}
+
+		async function checkGuiv2() {
+			const url = await isGuiv2Running();
+			if (url)
+				location.replace(url);
+		}
+
 		function initRfb() {
 			rfb = new RFB({
 				'target': $D('remote-console-canvas'),
@@ -225,9 +246,11 @@ function getSalt() {
 							switch(oldstate) {
 								case 'normal':
 									showStatus('Disconnected.', 'alarm');
+									checkGuiv2()
 									break;
 								case 'connect':
 									showStatus('Failed to connect.<br/>Make sure to enable Remote Console', 'alarm');
+									checkGuiv2();
 									break;
 								case 'SecurityResult':
 									(rfb.get_onPasswordRequired())(rfb);
