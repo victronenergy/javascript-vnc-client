@@ -249,7 +249,7 @@ function getSalt() {
 									checkGuiv2()
 									break;
 								case 'connect':
-									showStatus('Failed to connect.<br/>Make sure to enable Remote Console', 'alarm');
+									showStatus('Failed to connect.<br/>Make sure to enable Remote Console, or access <a href="/gui-v2">the new Remote UI.<a>', 'alarm');
 									checkGuiv2();
 									break;
 								case 'SecurityResult':
