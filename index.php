@@ -206,25 +206,16 @@ function getSalt() {
 			attempt = 0;
 		};
 
-		// note: returns the url if it is...
-		async function isGuiv2Running() {
-			try {
-				const response = await fetch(location.protocol + "//" + location.hostname, {cache: "no-cache"});
-				if (response.ok) {
-					if (response.redirected && response.url.includes("gui-v2")) {
-						return response.url;
+		function checkGuiv2() {
+			fetch(location.protocol + "//" + location.hostname, {cache: "no-cache"})
+				.then(function(response) {
+					if (response.ok) {
+						if (response.redirected && response.url.includes("gui-v2")) {
+							location.replace(response.url)
+						}
 					}
-				}
-			} catch (error) {
-			}
-
-			return ""
-		}
-
-		async function checkGuiv2() {
-			const url = await isGuiv2Running();
-			if (url)
-				location.replace(url);
+				})
+				.catch(function(error) {})
 		}
 
 		function initRfb() {
